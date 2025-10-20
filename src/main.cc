@@ -7,45 +7,14 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
-#include <vector>
-#include <thread>
 #include <memory>
 
-#define WORKERS 8
-
-typedef unsigned long long u64;
-
-/*
- * TODO
- * Create function for threads to handle connections
- */
-class worker {
-private:
-u64 id;
-std::thread thread;
-
-public:
-    worker(u64 id = 0) {
-        this->id = id;
-        thread = std::thread();
-    }
-};
+#include "lib.h"
 
 
-/*
- * TODO
- * Set up ipc for pool to send a connection handler
- * for workers.
- */
-class thread_pool {
-private:
-    std::vector<worker> pool;
 
-public:
-    thread_pool() {
-        pool = std::vector<worker>(WORKERS);
-    }
-};
+
+
 
 class server {
 private:
