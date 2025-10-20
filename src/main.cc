@@ -23,7 +23,7 @@ private:
     int serverSocket;
 
 public:
-    server() {
+    server(void) {
         serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 
         serverAddress = std::make_unique<sockaddr_in>();

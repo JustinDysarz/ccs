@@ -15,6 +15,6 @@ worker::worker(u64 id) {
  * Set up ipc for pool to send a connection handler
  * for workers.
  */
-thread_pool::thread_pool() {
+thread_pool::thread_pool(void) {
         pool = std::vector<worker>(WORKERS);
     }

@@ -24,7 +24,7 @@ private:
     std::vector<worker> pool;
 
 public:
-    thread_pool();
+    thread_pool(void);
 };
 
 #endif
