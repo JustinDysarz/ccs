@@ -1,12 +1,11 @@
-#ifndef LIB_H
-#define LIB_H
+#ifndef POOL_H
+#define POOL_H
 
 #include <memory>
 #include <queue>
 #include <thread>
 #include <functional>
 #include <vector>
-#include <iostream>
 
 #define WORKERS 2
 

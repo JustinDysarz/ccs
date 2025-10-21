@@ -1,8 +1,9 @@
-#include "lib.h"
+#include "pool.h"
 
 #include <functional>
 #include <memory>
 #include <thread>
+#include <iostream>
 
 /*
  * TODO: add error handling

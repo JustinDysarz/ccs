@@ -5,7 +5,7 @@
 #include <memory>
 #include <future>
 
-#include "lib.h"
+#include "pool.h"
 #include "socket.h"
 
 class server : public Socket {
