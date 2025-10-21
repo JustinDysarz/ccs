@@ -1,8 +1,3 @@
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
@@ -11,19 +6,18 @@
 #include <future>
 
 #include "lib.h"
+#include "socket.h"
 
-class server {
+class server : public Socket {
 private:
     std::unique_ptr<sockaddr_in> serverAddress;
     std::unique_ptr<thread_pool> pool;
-    int serverSocket;
 
 public:
-    server(void) {
-        /*std::future<std::unique_ptr<thread_pool>> to_pool = std::async(std::launch::async, []() {
-            return std::make_unique<thread_pool>();});*/
+    server(void) : Socket() {
+        std::future<std::unique_ptr<thread_pool>> to_pool = std::async(std::launch::async, []() {
+            return std::make_unique<thread_pool>();});
         
-        serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 
 
         serverAddress = std::make_unique<sockaddr_in>();
@@ -31,23 +25,23 @@ public:
         std::cout << "start\n";
         serverAddress.get()->sin_port = htons(8080);
         serverAddress.get()->sin_addr.s_addr = INADDR_ANY;
-        if (bind(serverSocket, (struct sockaddr*)serverAddress.get(), sizeof(*serverAddress.get())) == -1) {
+        if (bind(sock, (struct sockaddr*)serverAddress.get(), sizeof(*serverAddress.get())) == -1) {
             perror("Oh no. Error on bind.");
             exit(EXIT_FAILURE);
         }
 
-        listen(serverSocket, WORKERS);
+        listen(sock, WORKERS);
         std::cout << "connected";
 
-//        pool = to_pool.get();
+        pool = to_pool.get();
         while (true) {
-            int clientSocket = accept(serverSocket, nullptr, nullptr);
+            int clientSocket = accept(sock, nullptr, nullptr);
 
-            /*pool->handle([clientSocket]() {
+            pool->handle([clientSocket]() {
                 char *buff = (new char[1024]);
                 recv(clientSocket, buff, sizeof(buff), 0);
                 std::string str = std::string(buff);
-                std::cout << "test output from connection: " << str << "\n";});*/
+                std::cout << "test output from connection: " << str << "\n";});
 
             std::thread([clientSocket]() {
                 char *buff = (new char[1024]);
@@ -58,7 +52,7 @@ public:
     }
 
     ~server(void) {
-        close(serverSocket);
+        close(sock);
     }
 };
 

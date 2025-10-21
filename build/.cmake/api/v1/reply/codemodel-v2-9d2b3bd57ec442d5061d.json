@@ -15,7 +15,8 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -30,7 +31,8 @@
 					"name" : "ccs",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -39,8 +41,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ccs::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ccs-fd93a3ff87077d19ff97.json",
+					"jsonFile" : "target-ccs-13458f57653e8280626a.json",
 					"name" : "ccs",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "client::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-client-880713ae8f3b0bf7ca20.json",
+					"name" : "client",
 					"projectIndex" : 0
 				}
 			]

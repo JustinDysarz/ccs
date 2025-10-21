@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "ccs"
+			"path" : "client"
 		}
 	],
 	"backtrace" : 1,
@@ -24,7 +24,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 6,
+				"line" : 12,
 				"parent" : 0
 			}
 		]
@@ -32,7 +32,21 @@
 	"compileGroups" : 
 	[
 		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-std=gnu++23"
+				}
+			],
 			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "23"
+			},
 			"sourceIndexes" : 
 			[
 				0,
@@ -40,13 +54,13 @@
 			]
 		}
 	],
-	"id" : "ccs::@6890427a1f51a3e7e1df",
+	"id" : "client::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"language" : "CXX"
 	},
-	"name" : "ccs",
-	"nameOnDisk" : "ccs",
+	"name" : "client",
+	"nameOnDisk" : "client",
 	"paths" : 
 	{
 		"build" : ".",
@@ -68,13 +82,13 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/ccs.cc",
+			"path" : "src/client.cc",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/lib.cc",
+			"path" : "src/socket.cc",
 			"sourceGroupIndex" : 0
 		}
 	],
