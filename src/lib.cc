@@ -11,8 +11,9 @@
 task_manager::task_manager(void) : tasks(){}
 
 task_manager::~task_manager(void) {
-        while (!this->tasks.empty())
-            this->tasks.pop();
+    std::cout << "task manager\n";
+    while (!this->tasks.empty())
+        this->tasks.pop();
 }
 
 void task_manager::insert(std::function<void()> fn) {
@@ -27,15 +28,13 @@ auto task_manager::get(void) {
 }
 
 worker::worker(u64 id, std::shared_ptr<task_manager> client) 
-    :id(id),
-    client(client),
-    /*Handle incoming connections*/
-    thread([this]() {
+    : id(id),
+      client(client),
+      /*Handle incoming connections*/
+      thread([this]() {
                 while (true) {
                     auto fn = this->client.lock()->get();
-                    fn();}}){
-        isWorking = false;
-    }
+                    fn();}}){std::cout << "worker num " << this->id << "\n";}
 
 /*FIXME
  * fix destructor

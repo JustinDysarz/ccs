@@ -6,8 +6,9 @@
 #include <thread>
 #include <functional>
 #include <vector>
+#include <iostream>
 
-#define WORKERS 8
+#define WORKERS 2
 
 typedef unsigned long long u64;
 
@@ -34,7 +35,6 @@ private:
     u64 id;
 
 public:
-    bool isWorking;
     worker(u64 id, std::shared_ptr<task_manager> client);
     /*FIXME: destructor*/
    // ~worker(void);
