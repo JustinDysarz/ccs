@@ -1,37 +1,33 @@
-#include <cstdlib>
-#include <cstdio>
-#include <memory>
-#include <cstring>
+#include <stdio.h>
+#include <sys/socket.h>
 
-#include "socket.h"
+#include "client.h"
 
-class client : public Socket {
-private:
-    std::unique_ptr<sockaddr_in> serverAddress;
+client::client(void) : Socket() {
 
-public:
-    client(void) : Socket() {
-        serverAddress = std::unique_ptr<sockaddr_in>();
-        serverAddress.get()->sin_family = AF_INET;
-        serverAddress.get()->sin_port = htons(8080);
-        serverAddress.get()->sin_addr.s_addr = INADDR_LOOPBACK;
+    serverAddress = std::make_unique<sockaddr_in>();
+    serverAddress.get()->sin_family = AF_INET;
+    serverAddress.get()->sin_port = htons(8080);
+    serverAddress.get()->sin_addr.s_addr = INADDR_LOOPBACK;
 
-        if (connect(sock, (struct sockaddr*)&*(serverAddress.get()), sizeof(*serverAddress.get())) == -1) {
-            perror("Oh no. could not connect to host");
-            exit(EXIT_FAILURE);
-        }
+    if (connect(sock, (struct sockaddr*)(serverAddress.get()), sizeof(*serverAddress.get())) == -1) {
+        perror("Oh no. could not connect to host");
+        exit(EXIT_FAILURE);
+    }
         
-        const char *test = "Hello this is a test";
-        send(sock, test, strlen(test), 0);
-    }
+    const char *test = "Hello this is a test";
+    send(sock, test, strlen(test), 0);
+    shutdown(sock, 0);
+}
 
-    ~client(void) {
-        close(sock);
-    }
-};
+client::~client(void) {
+    close(sock);
+}
+#ifndef TESTING
 
 int main(void) {
     client start = client();
 
     exit(EXIT_SUCCESS);
 }
+#endif // !TESTING
