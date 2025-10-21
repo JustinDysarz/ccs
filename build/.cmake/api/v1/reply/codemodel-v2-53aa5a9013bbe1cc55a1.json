@@ -16,7 +16,8 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						1,
+						2
 					]
 				}
 			],
@@ -32,7 +33,8 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						1,
+						2
 					]
 				}
 			],
@@ -50,6 +52,13 @@
 					"id" : "client::@6890427a1f51a3e7e1df",
 					"jsonFile" : "target-client-880713ae8f3b0bf7ca20.json",
 					"name" : "client",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "test::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-test-9198a0e0e7b54c4fcee6.json",
+					"name" : "test",
 					"projectIndex" : 0
 				}
 			]

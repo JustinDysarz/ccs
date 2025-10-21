@@ -8,6 +8,4 @@ set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(ccs src/ccs.cc src/pool.cc src/socket.cc)
-add_executable(client src/client.cc src/socket.cc)
-add_executable(test test/test.cc src/pool.cc)
+add_executable(test test.cc src/pool.cc)
