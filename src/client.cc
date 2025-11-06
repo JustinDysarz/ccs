@@ -23,11 +23,3 @@ client::client(void) : Socket() {
 client::~client(void) {
     close(sock);
 }
-#ifndef TESTING
-
-int main(void) {
-    client start = client();
-
-    exit(EXIT_SUCCESS);
-}
-#endif // !TESTING

@@ -1,11 +1,12 @@
 #define TESTING
 
 #include <cstdlib>
+#include "../src/crypto.h"
+#include "../src/server.h"
+#include "../src/client.h"
 
 int main(void) {
-    /*TODO
-     *ADD tests
-     */
+    crypto cryp = crypto();
 
     exit(EXIT_SUCCESS);
 }

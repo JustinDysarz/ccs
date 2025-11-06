@@ -5,34 +5,28 @@
 		{
 			"compiler" : 
 			{
-				"id" : "GNU",
+				"id" : "Clang",
 				"implicit" : 
 				{
 					"includeDirectories" : 
 					[
-						"/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include",
-						"/usr/local/include",
-						"/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include-fixed",
+						"/usr/lib/clang/19/include",
 						"/usr/include"
 					],
 					"linkDirectories" : 
 					[
-						"/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1",
-						"/usr/lib",
-						"/lib"
+						"/usr/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
 					[
-						"gcc",
-						"gcc_s",
+						"compiler_rt",
 						"c",
-						"gcc",
-						"gcc_s"
+						"compiler_rt"
 					]
 				},
 				"path" : "clang",
-				"version" : "15.2.1"
+				"version" : "19.1.7"
 			},
 			"language" : "C",
 			"sourceFileExtensions" : 
@@ -44,39 +38,33 @@
 		{
 			"compiler" : 
 			{
-				"id" : "GNU",
+				"id" : "Clang",
 				"implicit" : 
 				{
 					"includeDirectories" : 
 					[
-						"/usr/include/c++/15.2.1",
-						"/usr/include/c++/15.2.1/x86_64-pc-linux-gnu",
-						"/usr/include/c++/15.2.1/backward",
-						"/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include",
-						"/usr/local/include",
-						"/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include-fixed",
+						"/usr/include/c++/v1",
+						"/usr/lib/clang/19/include",
 						"/usr/include"
 					],
 					"linkDirectories" : 
 					[
-						"/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1",
-						"/usr/lib",
-						"/lib"
+						"/usr/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
 					[
-						"stdc++",
+						"c++",
+						"c++abi",
+						"pthread",
 						"m",
-						"gcc_s",
-						"gcc",
+						"compiler_rt",
 						"c",
-						"gcc_s",
-						"gcc"
+						"compiler_rt"
 					]
 				},
 				"path" : "clang++",
-				"version" : "15.2.1"
+				"version" : "19.1.7"
 			},
 			"language" : "CXX",
 			"sourceFileExtensions" : 
