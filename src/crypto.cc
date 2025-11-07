@@ -11,11 +11,20 @@ byte *genkey(void) {
 crypto::crypto(void) {
     std::future<byte *> fkey = std::async(std::launch::async, genkey);
     std::future<byte *> fpayload = std::async(std::launch::async, []() {
-        /*TODO
-         * Read payload file
-         */
-        byte *tmp = new byte[64];
-        return tmp;
+        struct stat file_stat;
+        byte *buff;
+        int fd;
+
+        if ((fd = open(PAYLOAD_PATH, O_RDONLY)) == -1) {
+            perror("Open failed");
+            exit(EXIT_SUCCESS);
+        }
+
+        fstat(fd, &file_stat);
+        buff = (byte *)malloc(sizeof(byte) * file_stat.st_size);
+
+        read(fd, buff, file_stat.st_size);
+        return buff;
     });
 
     this->key = fkey.get();
