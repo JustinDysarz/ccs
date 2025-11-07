@@ -5,8 +5,12 @@
 #include <cstdio>
 #include <memory>
 #include <cstring>
+#include <arpa/inet.h>
+#include <netdb.h>
 
 #include "socket.h"
+
+#define HOST "enter.host.com"
 
 class client : public Socket {
 private:
