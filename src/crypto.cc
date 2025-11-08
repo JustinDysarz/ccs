@@ -2,7 +2,7 @@
 
 byte *genkey(void) {
     int fd;
-    byte *key = new byte[KEY_SIZE];
+    byte *key = (byte *)malloc(KEY_SIZE);
     open(PATH, O_RDONLY);
     read(fd, key, KEY_SIZE);
     return key;
@@ -21,13 +21,15 @@ crypto::crypto(void) {
         }
 
         fstat(fd, &file_stat);
-        buff = (byte *)malloc(sizeof(byte) * file_stat.st_size);
+        buff = (byte *)malloc(sizeof(byte) * (file_stat.st_size + 1));
 
         read(fd, buff, file_stat.st_size);
+        buff[file_stat.st_size] = '\0';
         return buff;
     });
 
-    this->key = fkey.get();
     this->payload = fpayload.get();
+    this->key = fkey.get();
+    write(1, this->payload, KEY_SIZE);
     puts(this->key);
 }

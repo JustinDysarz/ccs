@@ -6,8 +6,8 @@
 #include <iostream>
 
 #define KEY_SIZE 16
-#define PATH "/dev/random"
-#define PAYLOAD_PATH "~/test.sh"
+#define PATH "/dev/urandom"
+#define PAYLOAD_PATH "test.sh"
 
 typedef char byte;
 
