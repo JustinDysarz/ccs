@@ -9,6 +9,7 @@
 #include <future>
 
 #include "socket.h"
+#include "crypto.h"
 
 #define CONNECTIONS 100
 

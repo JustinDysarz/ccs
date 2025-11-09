@@ -1,7 +1,5 @@
-#include "ccs.h"
 #include "socket.h"
 #include "server.h"
-
 
 
 #ifndef TESTING

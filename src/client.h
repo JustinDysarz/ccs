@@ -9,6 +9,7 @@
 #include <netdb.h>
 
 #include "socket.h"
+#include "crypto.h"
 
 #define HOST "enter.host.com"
 

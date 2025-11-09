@@ -3,7 +3,7 @@
 server::server(void) : Socket() {
     serverAddress = std::make_unique<sockaddr_in>();
     serverAddress.get()->sin_family =AF_INET;
-    std::cout << "start\n";
+    std::cout << "starting daemon\n";
     serverAddress.get()->sin_port = htons(8080);
     serverAddress.get()->sin_addr.s_addr = INADDR_ANY;
     if (bind(sock, (struct sockaddr*)serverAddress.get(), sizeof(*serverAddress.get())) == -1) {
@@ -16,18 +16,21 @@ server::server(void) : Socket() {
 
     while (true) {
         int clientSocket = accept(sock, nullptr, nullptr);
-        std::thread([clientSocket]() {
-            char *buff = (new char[1024]);
-            recv(clientSocket, buff, sizeof(buff), 0);
-            std::string str = std::string(buff);
-            std::cout << "test output from connection: " << str << "\n";});
 
             std::thread([clientSocket]() {
-                char *buff = (new char[1024]);
-                recv(clientSocket, buff, sizeof(buff), 0);
-                std::string str = std::string(buff);
-                std::cout << "test output from connection: " << str << "\n";}).detach();
-    }
+                crypto *crypt = new crypto();
+                crypt->crypt();
+                crypt->crypt_key();
+
+                char *buff = (char *)malloc(sizeof(size_t));
+                snprintf(buff, sizeof(size_t), "%lu", crypt->get_payload_size());
+                write(clientSocket, crypt->get_key(), crypt->get_key_size());
+                write(clientSocket, buff, sizeof(size_t));
+                free(buff);
+                write(clientSocket, crypt->get_payload(), crypt->get_payload_size());
+                delete crypt;
+            });
+    };
 }
 
 server::~server(void) {
