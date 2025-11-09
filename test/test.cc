@@ -37,6 +37,8 @@ int main(void) {
     crypt->print_buff();
     printf("\n");
 
+    fun(crypt);
+
     delete crypt;
 
     exit(EXIT_SUCCESS);
