@@ -28,6 +28,7 @@ private:
 public:
     crypto(void);
     crypto(byte *key, size_t payload_size, byte *payload);
+    ~crypto(void);
     size_t get_key_size(void);
     size_t get_payload_size(void);
     byte *get_key(void);

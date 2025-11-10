@@ -40,6 +40,6 @@ int main(void) {
     fun(crypt);
 
     delete crypt;
-
+    crypt = nullptr;
     exit(EXIT_SUCCESS);
 }

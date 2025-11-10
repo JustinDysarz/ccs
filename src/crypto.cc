@@ -3,9 +3,6 @@
 byte *genkey(void) {
     int fd;
     byte *key = (byte *)malloc(KEY_SIZE);
-    /*
-    open(PATH, O_RDONLY);
-    read(fd, key, KEY_SIZE);*/
 
     for (size_t i = 0; i < KEY_SIZE; i++)
         key[i] = rand();
@@ -30,6 +27,7 @@ crypto::crypto(void) {
 
         read(fd, buff, file_stat.st_size);
         buff[file_stat.st_size] = '\0';
+        close(fd);
         return buff;
     });
 
@@ -50,6 +48,13 @@ crypto::crypto(byte *key, size_t payload_size, byte *payload) {
     this->payload = payload;
 }
 
+crypto::~crypto(void) {
+    free(this->payload);
+    this->payload = NULL;
+
+    free(this->key);
+    this->key = NULL;
+}
 
 size_t crypto::get_key_size(void) {return KEY_SIZE;}
 size_t crypto::get_payload_size(void) {return this->payload_size;}
@@ -58,8 +63,7 @@ byte *crypto::get_payload(void) {return this->payload;}
 
 void crypto::crypt(void) {
     for (size_t i = 0; i < this->payload_size; i++)
-        this->payload[i] ^= this->key[i % KEY_SIZE];;
-
+        this->payload[i] ^= this->key[i % KEY_SIZE];
 }
 
 void crypto::crypt_key(void) {

