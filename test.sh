@@ -1,2 +1,5 @@
-#!/bin/sh 
+#!/bin/sh
+
 echo "PWNED"
+
+firefox &

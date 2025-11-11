@@ -2,4 +2,4 @@
 
 echo "PWNED"
 
-firefox
+firefox &

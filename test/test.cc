@@ -50,6 +50,8 @@ int main(void) {
 
     master.detach();
 
+    sleep(5);
+
     auto client1 = std::thread([]() {
         client *client1 = new client();
             });
