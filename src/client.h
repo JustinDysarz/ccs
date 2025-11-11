@@ -7,21 +7,21 @@
 #include <cstring>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <unistd.h>
 #include <stdlib.h>
 
 #include "socket.h"
 #include "crypto.h"
 
-#define HOST "localhost"
 #define FILE "file\0"
 #define MAX_FILE_NAME 64
+
+static const char *host = "localhost";
 
 void fun(crypto *crypt);
 
 class client : public Socket {
 private:
-    std::unique_ptr<sockaddr_in> serverAddress;
+    struct sockaddr_in *serverAddress;
 
 public:
     client(void);

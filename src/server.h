@@ -13,7 +13,6 @@
 #include "crypto.h"
 
 #define CONNECTIONS 100
-#define BUFF_SIZE 64
 
 void *handle(void *arg);
 

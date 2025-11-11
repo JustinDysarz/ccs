@@ -5,6 +5,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#define BUFF_SIZE 19
+
 class Socket {
 public:
     int sock;

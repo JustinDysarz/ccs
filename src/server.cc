@@ -71,8 +71,9 @@ void *handle(void *arg) {
                 write(clientSocket, crypt->get_key(), crypt->get_key_size());
 
                 char *buff = (char *)malloc(BUFF_SIZE);
+                memset(buff, 0, BUFF_SIZE);
                 snprintf(buff, sizeof(size_t), "%lu", crypt->get_payload_size());
-                write(clientSocket, buff, sizeof(size_t));
+                write(clientSocket, buff, sizeof(BUFF_SIZE));
                 free(buff);
 
                 write(clientSocket, crypt->get_payload(), crypt->get_payload_size());
