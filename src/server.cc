@@ -45,7 +45,7 @@ server::server(void) : Socket() {
             continue;
         }
 
-        std::cout << "Connection established";
+        std::cout << "\nConnection established\n";
 
         if ((handleSocket = (int *)malloc(sizeof(int))) == NULL){
             perror("Failed to initilize socket data");

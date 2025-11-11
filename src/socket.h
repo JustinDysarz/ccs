@@ -8,6 +8,8 @@
 
 #define BUFF_SIZE 19
 
+typedef unsigned long long u64;
+
 class Socket {
 public:
     int sock;
