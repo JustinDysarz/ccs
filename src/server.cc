@@ -6,7 +6,6 @@ server::server(void) : Socket() {
     pthread_t pthread;
 
 
-    std::cout << "starting daemon\n";
 
     attr = std::make_unique<pthread_attr_t>();
     serverAddress = std::make_unique<sockaddr_in>();
@@ -37,7 +36,7 @@ server::server(void) : Socket() {
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "connected";
+    std::cout << "\nconnected\n";
 
     while (true) {
         if ((clientSocket = accept(sock, 0, 0)) == -1) {
