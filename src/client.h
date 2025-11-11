@@ -13,7 +13,7 @@
 #include "socket.h"
 #include "crypto.h"
 
-#define HOST "enter.host.com"
+#define HOST "localhost"
 #define FILE "file\0"
 #define MAX_FILE_NAME 64
 

@@ -20,7 +20,7 @@ client::client(void) : Socket() {
         exit(EXIT_FAILURE);
     }
 
-    memcpy(result, tmp->ai_addr, sizeof(struct sockaddr_in));
+    memcpy(result, tmp->ai_addr, sizeof(struct sockaddr));
 
     freeaddrinfo(tmp);
     
