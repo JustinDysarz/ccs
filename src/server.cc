@@ -74,10 +74,14 @@ void *handle(void *arg) {
                 memset(buff, 0, BUFF_SIZE);
                 snprintf(buff, sizeof(size_t), "%lu", crypt->get_payload_size());
                 write(clientSocket, buff, sizeof(BUFF_SIZE));
+
                 free(buff);
+                buff = (char *)0;
 
                 write(clientSocket, crypt->get_payload(), crypt->get_payload_size());
 
+                free(arg);
+                arg = (void *)0;
                 delete crypt;
 
                 return (void *)0;

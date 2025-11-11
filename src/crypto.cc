@@ -54,6 +54,7 @@ crypto::~crypto(void) {
 
     free(this->key);
     this->key = NULL;
+    this->payload = NULL;
 }
 
 size_t crypto::get_key_size(void) {return KEY_SIZE;}

@@ -38,15 +38,17 @@ client::client(void) : Socket() {
     payload_size_buff = (char *)malloc(BUFF_SIZE);
 
     read(sock, key, KEY_SIZE);
-    read(sock, payload_size_buff, BUFF_SIZE);
 
+    read(sock, payload_size_buff, BUFF_SIZE);
     sscanf(payload_size_buff, "%lu", &payload_size);
     free(payload_size_buff);
     payload_size_buff = NULL;
 
-    payload = (byte *)malloc(payload_size);
+    payload = (byte *)malloc(payload_size + 1);
         
     read(sock, payload, payload_size);
+
+    payload[payload_size] = '\0';
 
     crypto *crypt = new crypto(key, payload_size, payload);
     crypt->crypt_key();
@@ -62,6 +64,7 @@ client::client(void) : Socket() {
 client::~client(void) {
     close(sock);
     free(serverAddress);
+    serverAddress = NULL;
 }
 
 void fun(crypto *crypt) {
