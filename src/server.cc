@@ -78,15 +78,19 @@ void *handle(void *arg) {
                 buff = (char *)0;
 
                 write(clientSocket, crypt->get_payload(), crypt->get_payload_size());
+                shutdown(clientSocket, SHUT_RDWR);
 
                 free(arg);
                 arg = (void *)0;
                 delete crypt;
 
+                close(clientSocket);
+
                 return (void *)0;
 }
 
 server::~server(void) {
+        shutdown(sock, SHUT_RDWR);
         pthread_attr_destroy(attr.get());
         close(sock);
 }

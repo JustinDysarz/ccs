@@ -58,7 +58,7 @@ client::client(void) : Socket() {
 
     delete crypt;
     crypt = nullptr;
-    shutdown(sock, 0);
+    shutdown(sock, SHUT_RDWR);
 }
 
 client::~client(void) {
