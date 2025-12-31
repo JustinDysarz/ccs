@@ -1,50 +1,54 @@
 #define TESTING
 
-#include <cstdlib>
+#include <stdlib.h>
 #include "../src/crypto.h"
 #include "../src/server.h"
 #include "../src/client.h"
 
 int main(void) {
-    crypto *crypt = new crypto();
+    crypto_init_server();
     
     printf("\nPayload: \n");
-    crypt->print_buff();
+    print_buff();
     printf("\n");
 
     printf("\nEncrypted payload: \n");
-    crypt->crypt();
-    crypt->print_buff();
+    crypt_buff();
+    print_buff();
     printf("\n");
 
 
     printf("\nKey: \n");
-    crypt->print_key();
+    print_key();
 
     printf("\nEncrypted key: \n");
-    crypt->crypt_key();
-    crypt->print_key();
+    crypt_key();
+    print_key();
 
 
     printf("\nDecrypted key: \n");
-    crypt->crypt_key();
-    crypt->print_key();
+    crypt_key();
+    print_key();
 
-    crypt->crypt();
+    crypt_buff();
 
 
     printf("\nDecrypted payload: \n");
-    crypt->print_buff();
+    print_buff();
     printf("\n");
 
-    fun(crypt);
+    fun();
 
-    delete crypt;
-    crypt = nullptr;
+    free(crypto.payload);
+    crypto.payload = NULL;
 
-    std::cout << "Time to test the sockets\n\n\n";
+    free(crypto.key);
+    crypto.key = NULL;
+    crypto.payload = NULL;
 
-    auto master = std::thread([]() {
+    printf("Time to test the sockets\n\n\n");
+
+/*    auto master = std::thread([]() {
         server_listen();
             });
 
@@ -59,7 +63,7 @@ int main(void) {
 
 
     client1.join();
-
+*/
     exit(EXIT_SUCCESS);
 }
 

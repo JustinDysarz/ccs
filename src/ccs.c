@@ -6,7 +6,7 @@
 int main(void) {
     pid_t pid;
 
-    std::cout << "Starting daemon\n";
+    printf("Starting daemon\n");
     
     umask(0);
 
@@ -23,8 +23,7 @@ int main(void) {
     setsid();
 
 
-    server master = server();
-
+    server_listen();
 
     exit(EXIT_SUCCESS);
 }

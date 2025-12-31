@@ -79,7 +79,7 @@
 						"gcc"
 					]
 				},
-				"path" : "clang++",
+				"path" : "/usr/bin/c++",
 				"version" : "21.1.7"
 			},
 			"language" : "CXX",
