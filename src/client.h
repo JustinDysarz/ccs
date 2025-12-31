@@ -1,10 +1,10 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include <cstdlib>
+#include <stdlib.h>
 #include <cstdio>
 #include <memory>
-#include <cstring>
+#include <string.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <stdlib.h>
@@ -12,21 +12,21 @@
 #include "socket.h"
 #include "crypto.h"
 
-#define FILE "file\0"
+#define FILE "test.sh"
 #define MAX_FILE_NAME 64
 
-static const char *host = "localhost";
+typedef struct {
+    struct sockaddr_in *serverAddress;
+    int fd;
+} client;
+
+static client con;
+
 
 void fun(crypto *crypt);
+void client_connect(void);
 
-class client : public Socket {
-private:
-    struct sockaddr_in *serverAddress;
 
-public:
-    client(void);
-    ~client(void);
-};
 
 #endif
 

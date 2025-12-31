@@ -10,23 +10,31 @@
 				{
 					"includeDirectories" : 
 					[
-						"/usr/lib/clang/19/include",
+						"/usr/lib/llvm/21/lib/clang/21/include",
+						"/usr/local/include",
 						"/usr/include"
 					],
 					"linkDirectories" : 
 					[
+						"/usr/lib/llvm/21/lib/clang/21/lib/x86_64-unknown-linux-gnu",
+						"/usr/lib64/gcc/x86_64-unknown-linux-gnu/14.2",
+						"/usr/lib64",
+						"/lib64",
+						"/lib",
 						"/usr/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
 					[
-						"compiler_rt",
+						"gcc",
+						"gcc_s",
 						"c",
-						"compiler_rt"
+						"gcc",
+						"gcc_s"
 					]
 				},
 				"path" : "clang",
-				"version" : "19.1.7"
+				"version" : "21.1.7"
 			},
 			"language" : "C",
 			"sourceFileExtensions" : 
@@ -43,28 +51,36 @@
 				{
 					"includeDirectories" : 
 					[
-						"/usr/include/c++/v1",
-						"/usr/lib/clang/19/include",
+						"/usr/include/c++/14.2",
+						"/usr/include/c++/14.2/x86_64-unknown-linux-gnu",
+						"/usr/include/c++/14.2/backward",
+						"/usr/lib/llvm/21/lib/clang/21/include",
+						"/usr/local/include",
 						"/usr/include"
 					],
 					"linkDirectories" : 
 					[
+						"/usr/lib/llvm/21/lib/clang/21/lib/x86_64-unknown-linux-gnu",
+						"/usr/lib64/gcc/x86_64-unknown-linux-gnu/14.2",
+						"/usr/lib64",
+						"/lib64",
+						"/lib",
 						"/usr/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
 					[
-						"c++",
-						"c++abi",
-						"pthread",
+						"stdc++",
 						"m",
-						"compiler_rt",
+						"gcc_s",
+						"gcc",
 						"c",
-						"compiler_rt"
+						"gcc_s",
+						"gcc"
 					]
 				},
 				"path" : "clang++",
-				"version" : "19.1.7"
+				"version" : "21.1.7"
 			},
 			"language" : "CXX",
 			"sourceFileExtensions" : 

@@ -2,8 +2,9 @@
 #define SERVER_H
 
 #include <pthread.h>
-#include <cstdio>
-#include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <iostream>
 #include <string>
 #include <memory>
@@ -16,15 +17,14 @@
 
 void *handle(void *arg);
 
-class server : public Socket {
-private:
-    std::unique_ptr<sockaddr_in> serverAddress;
-    std::unique_ptr<pthread_attr_t> attr;
+typedef struct {
+    sockaddr_in serverAddress;
+    pthread_attr_t attr;
+    int fd;
+} server;
 
-public:
-    server(void);
+static server scon;
 
-    ~server(void);
-};
+void server_listen(void);
 
 #endif

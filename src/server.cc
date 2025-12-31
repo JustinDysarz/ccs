@@ -1,37 +1,35 @@
 #include "server.h"
 
-server::server(void) : Socket() {
+void server_listen(void) {
     int clientSocket;
     int *handleSocket;
     pthread_t pthread;
 
+    scon.fd= socket(AF_INET, SOCK_STREAM, 0);
+    memset(&scon.serverAddress, 0, sizeof scon.serverAddress);
 
+    scon.serverAddress.sin_family =AF_INET;
+    scon.serverAddress.sin_port = htons(8080);
+    scon.serverAddress.sin_addr.s_addr = INADDR_ANY;
 
-    attr = std::make_unique<pthread_attr_t>();
-    serverAddress = std::make_unique<sockaddr_in>();
-
-    serverAddress.get()->sin_family =AF_INET;
-    serverAddress.get()->sin_port = htons(8080);
-    serverAddress.get()->sin_addr.s_addr = INADDR_ANY;
-
-    if (bind(sock, (struct sockaddr*)serverAddress.get(), sizeof(*serverAddress.get())) == -1) {
+    if (bind(scon.fd, (struct sockaddr*)&scon.serverAddress, sizeof(scon.serverAddress)) == -1) {
         perror("Oh no. Error on bind.");
         exit(EXIT_FAILURE);
     }
 
-    if (pthread_attr_init(attr.get()) != 0) {
+    if (pthread_attr_init(&scon.attr) != 0) {
         perror("could not set pthread attributes");
         exit(EXIT_FAILURE);
     }
 
-    if(pthread_attr_setdetachstate(attr.get(), PTHREAD_CREATE_DETACHED) != 0) {
+    if(pthread_attr_setdetachstate(&scon.attr, PTHREAD_CREATE_DETACHED) != 0) {
         perror("Could not set pthread attributes");
         exit(EXIT_FAILURE);
     }
 
     std::cout << "Socket bound to address";
 
-    if (listen(sock, CONNECTIONS) == -1) {
+    if (listen(scon.fd, CONNECTIONS) == -1) {
         perror("Could not listen on socket");
         exit(EXIT_FAILURE);
     }
@@ -39,7 +37,7 @@ server::server(void) : Socket() {
     std::cout << "\nconnected\n";
 
     while (true) {
-        if ((clientSocket = accept(sock, 0, 0)) == -1) {
+        if ((clientSocket = accept(scon.fd, 0, 0)) == -1) {
             perror("Failed to handle connection");
             continue;
         }
@@ -53,11 +51,14 @@ server::server(void) : Socket() {
 
         *handleSocket = clientSocket;
 
-        if (pthread_create(&pthread, attr.get(), handle, (void *)handleSocket) != 0) {
+        if (pthread_create(&pthread, &scon.attr, handle, (void *)handleSocket) != 0) {
             perror("Failed to create pthread");
             continue;
         }
     }
+    shutdown(scon.fd, SHUT_RDWR);
+    pthread_attr_destroy(&scon.attr);
+    close(scon.fd);
 }
 
 void *handle(void *arg) {
@@ -87,10 +88,4 @@ void *handle(void *arg) {
                 close(clientSocket);
 
                 return (void *)0;
-}
-
-server::~server(void) {
-        shutdown(sock, SHUT_RDWR);
-        pthread_attr_destroy(attr.get());
-        close(sock);
 }

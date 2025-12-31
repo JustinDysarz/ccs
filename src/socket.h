@@ -3,12 +3,11 @@
 
 #include <string.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#define BUFF_SIZE 19
-
-typedef unsigned long long u64;
+#define BUFF_SIZE 32
 
 class Socket {
 public:
