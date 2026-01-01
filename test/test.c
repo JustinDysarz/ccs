@@ -1,16 +1,34 @@
 #define TESTING
 
 #include <stdlib.h>
+#include <threads.h>
+#include <assert.h>
 #include "../src/crypto.h"
 #include "../src/server.h"
 #include "../src/client.h"
 
+static uint8_t key_copy[KEY_SIZE], *buff_copy;
+static thrd_t master, client1;
+
+
 int main(void) {
     crypto_init_server();
-    
+
+    strncpy((char *)key_copy, (char *)get_key(), KEY_SIZE);
+    crypt_key();
+    crypt_key();
+    assert(strcmp((char *)get_key(), (char *)key_copy) == 0);
+
+    buff_copy = (uint8_t *)malloc(get_payload_size());
+    strncpy((char *)buff_copy, (char *)get_payload(), get_payload_size());
+    assert(strcmp((char *)get_payload(), (char *)buff_copy) == 0);
+    puts("All asserts passed");
+
     printf("\nPayload: \n");
     print_buff();
     printf("\n");
+
+
 
     printf("\nEncrypted payload: \n");
     crypt_buff();
@@ -48,22 +66,12 @@ int main(void) {
 
     printf("Time to test the sockets\n\n\n");
 
-/*    auto master = std::thread([]() {
-        server_listen();
-            });
+    thrd_create(&master, (void *)server_listen, NULL);
+    thrd_create(&client1, (void *)client_connect, NULL);
 
-    master.detach();
+    thrd_join(master, NULL);
+    thrd_join(client1, NULL);
 
-    sleep(5);
-
-    auto client1 = std::thread([]() {
-        client_connect(); 
-            });
-
-
-
-    client1.join();
-*/
     exit(EXIT_SUCCESS);
 }
 

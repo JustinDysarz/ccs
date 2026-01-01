@@ -65,6 +65,7 @@ void *handle(void *arg) {
                 int clientSocket = *((int *)arg);
 
                 crypto_init_server();
+                crypt_buff();
                 crypt_key();
 
                 write(clientSocket, get_key(), get_key_size());

@@ -8,6 +8,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#define BUFF_SIZE 32
+#define BUFF_SIZE 64
 
 #endif

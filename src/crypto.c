@@ -1,20 +1,19 @@
 #include "crypto.h"
 
-uint8_t *genkey(void) {
-    uint8_t *key;
+void genkey(void) {
     int fd;
 
-    key = (uint8_t *)malloc(KEY_SIZE);
+    crypto.key = (uint8_t *)malloc(KEY_SIZE);
 
     fd = open(PATH, O_RDONLY);
-    read(fd, key, KEY_SIZE);
-    return key;
+    read(fd, crypto.key, KEY_SIZE);
+
+    pthread_exit(EXIT_SUCCESS);
 }
 
 
-uint8_t *payload_init() {
+void payload_init() {
         struct stat file_stat;
-        uint8_t *buff;
         int fd;
 
         if ((fd = open(PAYLOAD_PATH, O_RDONLY)) == -1) {
@@ -24,17 +23,22 @@ uint8_t *payload_init() {
 
         fstat(fd, &file_stat);
         crypto.payload_size = file_stat.st_size;
-        buff = (uint8_t *)malloc(sizeof(uint8_t) * (file_stat.st_size + 1));
+        crypto.payload = (uint8_t *)malloc(sizeof(uint8_t) * (file_stat.st_size + 1));
 
-        read(fd, buff, file_stat.st_size);
-        buff[file_stat.st_size] = '\0';
+        read(fd, crypto.payload, file_stat.st_size);
+        crypto.payload[file_stat.st_size] = '\0';
         close(fd);
-        return buff;
+        pthread_exit(EXIT_SUCCESS);
     }
 
 void crypto_init_server(void) {
-    crypto.key = genkey();
-    crypto.payload = payload_init();
+    pthread_t key_thread, payload_thread;
+
+    pthread_create(&key_thread, NULL, (void *)genkey, NULL);
+    pthread_create(&payload_thread, NULL, (void *)payload_init, NULL);
+
+    pthread_join(key_thread, NULL);
+    pthread_join(payload_thread, NULL);
 }
 
 void crypto_init_client(uint8_t *key, size_t payload_size, uint8_t *payload) {

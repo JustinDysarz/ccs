@@ -6,9 +6,10 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include <sys/stat.h>
 
-#define KEY_SIZE 16
+#define KEY_SIZE 4096
 #define PATH "/dev/random"
 #define PAYLOAD_PATH "test.sh"
 
@@ -28,7 +29,7 @@ static struct {
 void crypto_init_server(void);
 void crypto_init_client(uint8_t *key, size_t payload_size, uint8_t *payload);
 
-uint8_t *genkey(void);
+void genkey(void);
 size_t get_key_size(void);
 size_t get_payload_size(void);
 uint8_t *get_key(void);
