@@ -61,37 +61,39 @@ void server_listen(void) {
     close(server.fd);
 }
 
-void *handle(void *arg) {
-                int clientSocket = *((int *)arg);
+void *handle(void *restrict arg) {
+    int clientSocket = *((int *)arg);
 
-                crypto_init_server();
-                crypt_buff();
-                crypt_key();
+    crypto_init_server();
+    crypt_buff();
+    crypt_key();
 
-                write(clientSocket, get_key(), get_key_size());
+    write(clientSocket, get_key(), get_key_size());
 
-                char *buff = (char *)malloc(BUFF_SIZE);
-                memset(buff, 0, BUFF_SIZE);
-                snprintf(buff, sizeof(size_t), "%lu", get_payload_size());
-                write(clientSocket, buff, sizeof(BUFF_SIZE));
+    char *buff = (char *)malloc(BUFF_SIZE);
+    memset(buff, 0, BUFF_SIZE);
+    snprintf(buff, sizeof(size_t), "%lu", get_payload_size());
+    write(clientSocket, buff, sizeof(BUFF_SIZE));
 
-                free(buff);
-                buff = (char *)0;
+    free(buff);
+    buff = (char *)0;
 
-                write(clientSocket, get_payload(), get_payload_size());
-                shutdown(clientSocket, SHUT_RDWR);
+    write(clientSocket, get_payload(), get_payload_size());
+    shutdown(clientSocket, SHUT_RDWR);
 
-                free(arg);
-                arg = (void *)0;
+    free(arg);
+    arg = (void *)0;
 
-                free(crypto.payload);
-                crypto.payload = NULL;
+    memset(crypto.payload, 0, crypto.payload_size);
+    free(crypto.payload);
+    crypto.payload = NULL;
 
-                free(crypto.key);
-                crypto.key = NULL;
-                crypto.payload = NULL;
+    memset(crypto.key, 0, KEY_SIZE);
+    free(crypto.key);
+    crypto.key = NULL;
+    crypto.payload = NULL;
 
-                close(clientSocket);
+    close(clientSocket);
 
-                return (void *)0;
+    return NULL;
 }

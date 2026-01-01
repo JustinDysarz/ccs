@@ -27,7 +27,7 @@ static struct {
 
 
 void crypto_init_server(void);
-void crypto_init_client(uint8_t *key, size_t payload_size, uint8_t *payload);
+void crypto_init_client(uint8_t  *restrict key, size_t payload_size, uint8_t *restrict payload);
 
 void genkey(void);
 size_t get_key_size(void);

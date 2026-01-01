@@ -41,7 +41,7 @@ void crypto_init_server(void) {
     pthread_join(payload_thread, NULL);
 }
 
-void crypto_init_client(uint8_t *key, size_t payload_size, uint8_t *payload) {
+void crypto_init_client(uint8_t *restrict key, size_t payload_size, uint8_t *restrict payload) {
     crypto.key = key;
     crypto.payload_size = payload_size;
     crypto.payload = payload;

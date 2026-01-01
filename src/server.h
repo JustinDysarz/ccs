@@ -5,13 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <threads.h>
 #include "socket.h"
 #include "crypto.h"
 
 #define CONNECTIONS 100
 
-void *handle(void *arg);
+void *handle(void *restrict arg);
 
 static struct {
     struct sockaddr_in serverAddress;
